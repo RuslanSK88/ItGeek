@@ -70,27 +70,32 @@ namespace ItGeek.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(PostViewModel postViewModel)
         {
-            Post post = new Post()
+            if (ModelState.IsValid)
             {
-                Id = postViewModel.Id,
-                Slug = postViewModel.Slug,
-                IsDeleted = postViewModel.IsDeleted,
-                CreatedAt = DateTime.Now,
-                EditedAt = DateTime.Now,
-            };
-            PostContent postContent = new PostContent()
-            {
-                PostId = postViewModel.Id,
-                Post = post,
-                Title = postViewModel.Title,
-                PostBody = postViewModel.PostBody,
-                PostImage = postViewModel.PostImage,
-                CommentsNum = 0,
-                CommentsClosed = postViewModel.CommentsClosed
-            };
-            await _uow.PostRepository.InsertAsync(post);
-            await _uow.PostContentRepository.InsertAsync(postContent);
-            return RedirectToAction(nameof(Index));
+                Post post = new Post()
+                {
+                    Id = postViewModel.Id,
+                    Slug = postViewModel.Slug,
+                    IsDeleted = postViewModel.IsDeleted,
+                    CreatedAt = DateTime.Now,
+                    EditedAt = DateTime.Now,
+                };
+                PostContent postContent = new PostContent()
+                {
+                    PostId = postViewModel.Id,
+                    Post = post,
+                    Title = postViewModel.Title,
+                    PostBody = postViewModel.PostBody,
+                    PostImage = postViewModel.PostImage,
+                    CommentsNum = 0,
+                    CommentsClosed = postViewModel.CommentsClosed
+                };
+                await _uow.PostRepository.InsertAsync(post);
+                await _uow.PostContentRepository.InsertAsync(postContent);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(postViewModel);
+
         }
         [HttpGet]
         public async Task<IActionResult> Update(int id)

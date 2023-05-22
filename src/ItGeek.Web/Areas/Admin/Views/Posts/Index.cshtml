@@ -1,48 +1,76 @@
 ﻿@model IEnumerable<ItGeek.Web.Areas.Admin.ViewModels.PostViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список статей";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<div class="row">
+    <div class="col-10">
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["title"]</h1>
+    </div>    
+    <div class="col text-right">
+        <a asp-action="Create" class="btn btn-success">Новая</a>
+    </div>
+</div>
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <table class="table table-bordered dataTable" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Slug)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsDeleted)
+                            </th>
+                            <th style="width: 180px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model) {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Slug)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Slug)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsDeleted)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Slug)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsDeleted)
-            </td>
-            <td>
-                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $('#myTable').DataTable({
+                language: {url: '/js/admin/ru.json',},
+            });
+        })
+    </script>
 }
-    </tbody>
-</table>
+

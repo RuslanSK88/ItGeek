@@ -1,5 +1,6 @@
 ﻿using ItGeek.DAL.Entities;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ItGeek.Web.Areas.Admin.ViewModels
 {
@@ -27,6 +28,10 @@ namespace ItGeek.Web.Areas.Admin.ViewModels
         public string PostImage { get; set; }
         [Display(Name = "Открыть комментарии")]
         public bool CommentsClosed { get; set; } = true;
+
+        [NotMapped]
+        [Display(Name = "Картинка")]
+        public IFormFile? ImageFile { get; set; }
 
     }
 }

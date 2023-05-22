@@ -1,0 +1,52 @@
+﻿@model ItGeek.Web.Areas.Admin.ViewModels.PostViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label asp-for="Slug" class="control-label"></label>
+            <input asp-for="Slug" class="form-control" />
+            <span asp-validation-for="Slug" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="PostBody" class="control-label"></label>
+    <textarea asp-for="PostBody" class="form-control"></textarea>
+    <span asp-validation-for="PostBody" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label asp-for="PostImage" class="control-label"></label>
+            <input asp-for="PostImage" class="form-control" />
+            <span asp-validation-for="PostImage" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+            </label>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="CommentsClosed" /> @Html.DisplayNameFor(model => model.CommentsClosed)
+            </label>
+        </div>
+    </div>
+</div>
+           
+<div class="form-group">
+    <input type="submit" value="Create" class="btn btn-primary" />
+</div>
+
