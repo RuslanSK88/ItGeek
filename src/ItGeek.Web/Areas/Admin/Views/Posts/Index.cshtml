@@ -21,6 +21,9 @@
                     <thead>
                         <tr>
                             <th>
+                                @Html.DisplayNameFor(model => model.PostImage)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model.Title)
                             </th>
                             <th>
@@ -36,6 +39,9 @@
                         @foreach (var item in Model) {
                             <tr>
                                 <td>
+                                    <img src="/uploads/@item.PostImage" style="width: 100px">
+                                </td>
+                                <td>
                                     @Html.DisplayFor(modelItem => item.Title)
                                 </td>
                                 <td>
@@ -45,7 +51,7 @@
                                     @Html.DisplayFor(modelItem => item.IsDeleted)
                                 </td>
                                 <td>
-                                    <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.Id">
+                                    <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">
                                         <i class="fa fa-pen"></i>
                                     </a>
                                     <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">

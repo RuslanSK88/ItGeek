@@ -2,8 +2,7 @@
 
 namespace ItGeek.DAL.Entities;
 
-[Keyless]
-public class PostAuthor
+public class PostAuthor : BaseEntity
 {
 	public int PostId { get; set; }
 	public int AuthorId { get; set; }

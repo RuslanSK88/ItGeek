@@ -23,9 +23,9 @@ namespace ItGeek.Web.Areas.Admin.ViewModels
         [Required]
         [Display(Name = "Текст новости")]
         public string PostBody { get; set; }
-        [Required]
-        [Display(Name = "Картинка новости")]
-        public string PostImage { get; set; }
+
+        [Display(Name = "Изображение")]
+        public string? PostImage { get; set; }
         [Display(Name = "Открыть комментарии")]
         public bool CommentsClosed { get; set; } = true;
 
@@ -33,5 +33,11 @@ namespace ItGeek.Web.Areas.Admin.ViewModels
         [Display(Name = "Картинка")]
         public IFormFile? ImageFile { get; set; }
 
-    }
+		[Display(Name = "Категория")]
+		public int[] CategoryId { get; set; }
+
+
+		[Display(Name = "Автор")]
+		public int[] AuthorId { get; set; }
+	}
 }

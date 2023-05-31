@@ -19,7 +19,7 @@ public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : cl
 
 	public async Task<T> GetByIDAsync(int id)
 	{
-		return await _db.Set<T>().FirstAsync();
+		return await _db.Set<T>().FindAsync(id);
 	}
 	public async Task<T> InsertAsync(T entity)
 	{

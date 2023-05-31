@@ -20,9 +20,10 @@ namespace ItGeek.Web.Areas.Admin.Controllers
             _uow = uow;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int menuid)
         {
-            return View(await _uow.MenuItemRepository.ListAllAsync());
+            ViewBag.Id = menuid;
+            return View(await _uow.MenuItemRepository.GetByMenuIdAsync(menuid));
         }
 
         public async Task<IActionResult> Details(int id)
@@ -37,41 +38,45 @@ namespace ItGeek.Web.Areas.Admin.Controllers
             {
                 await _uow.MenuItemRepository.DeleteAsync(menuItem);
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {menuid = menuItem.MenuId});
         }
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(int menuid)
         {
+            ViewBag.Id = menuid;
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(MenuItem menuItem)
+        public async Task<IActionResult> Create(MenuItem menuItem, int menuid)
         {
+            ViewBag.Id = menuid;
             if (ModelState.IsValid)
             {
                 await _uow.MenuItemRepository.InsertAsync(menuItem);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { menuid = menuid });
             }
             return View(menuItem);
         }
         [HttpGet]
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Update(int id, int menuid)
         {
             MenuItem menuItem = await _uow.MenuItemRepository.GetByIDAsync(id);
             if (menuItem == null)
             {
                 return NotFound();
             }
+            ViewBag.Id = menuid;
             return View(menuItem);
         }
         [HttpPost]
-        public async Task<IActionResult> Update(MenuItem menuItem)
+        public async Task<IActionResult> Update(MenuItem menuItem, int menuid)
         {
             if (ModelState.IsValid)
             {
                 await _uow.MenuItemRepository.UpdateAsync(menuItem);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { menuid = menuItem.MenuId });
             }
+            ViewBag.Id = menuid;
             return View(menuItem);
         }
     }
