@@ -1,0 +1,31 @@
+﻿@model ItGeek.Web.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "Регистрация";
+}
+
+<h2>Регистрация</h2>
+
+<form asp-action="Registration" asp-controller="Account" asp-anti-forgery="true">
+    <div class="validation" asp-validation-summary="ModelOnly" />
+    <div>
+        <div>
+            <label asp-for="Email"></label><br />
+            <input type="text" asp-for="Email" />
+            <span asp-validation-for="Email" />
+        </div>
+        <div>
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password" />
+        </div>
+        <div>
+            <label asp-for="ConfirmPassword"></label><br />
+            <input asp-for="ConfirmPassword" />
+            <span asp-validation-for="ConfirmPassword" />
+        </div>
+        <div>
+            <input class="btn btn-success" type="submit" value="Регистрация" />
+        </div>
+    </div>
+</form>

@@ -1,4 +1,5 @@
 ﻿using ItGeek.DAL.Entities;
+using ItGeek.DAL.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace ItGeek.DAL.Data;
@@ -57,6 +58,23 @@ public class AppDbContext : DbContext
 			Id = 2,
 			Name = "Меню в подвале",
 		});
-
-	}
+        modelBuilder.Entity<Role>().HasData(new Role
+        {
+            Id = 1,
+            RoleName = RoleName.SuperAdmin,
+        }, new Role
+        {
+            Id = 2,
+            RoleName = RoleName.Admin,
+        }, new Role
+        {
+            Id = 3,
+            RoleName = RoleName.Moderator,
+        }, new Role
+        {
+            Id = 4,
+            RoleName = RoleName.Basic,
+        }
+        );
+    }
 }
