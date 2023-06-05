@@ -242,5 +242,18 @@ namespace ItGeek.Web.Areas.Admin.Controllers
             }
             return uniqueFileName;
         }
+        public async Task<JsonResult> GetTagByName(string tag)
+        {
+
+            List<Tag> result = await _uow.TagRepository.GetTagByNameAsync(tag);
+
+            List<string> res = new List<string>();
+            foreach (Tag item in result)
+            {
+                res.Add(item.Name);
+            }
+
+            return Json(res);
+        }
     }
 }

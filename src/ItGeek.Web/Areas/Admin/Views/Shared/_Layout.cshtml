@@ -16,9 +16,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
           rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css">
 
-    <link href="~/lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+
+
 
     <!-- Custom styles for this template-->
     <link href="~/css/admin/sb-admin-2.min.css" rel="stylesheet" type="text/css">
@@ -177,7 +177,16 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Radik</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                    @if(User.Identity.IsAuthenticated)
+                                    {
+                                        @User.Identity.Name
+                                    }
+                                    else
+                                    {
+                                        @: Ruslan
+                                    }
+                                </span>
                                 <img class="img-profile rounded-circle"
                                      src="~/img/undraw_profile.svg">
                             </a>
@@ -263,17 +272,9 @@
     <!-- Bootstrap core JavaScript-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/jquery-easing/jquery.easing.min.js"></script>
-    <script src="~/lib/chart.js/Chart.bundle.min.js"></script>
-
-    <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/lib/datatables/dataTables.bootstrap4.min.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
-
     <!-- Custom scripts for all pages-->
     <script src="~/js/admin/sb-admin-2.js"></script>
-    <script src="~/js/admin/chart-area-demo.js"></script>
+
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
