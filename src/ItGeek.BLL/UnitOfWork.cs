@@ -1,5 +1,6 @@
 ﻿using ItGeek.BLL.Repositories;
 using ItGeek.DAL.Data;
+using ItGeek.DAL.Interfaces;
 
 namespace ItGeek.BLL;
 
@@ -19,8 +20,15 @@ public class UnitOfWork
 	private RoleRepository _roleRepository ;
 	private TagRepository _tagRepository ;
 	private UserRepository _userRepository ;
+	private UserProfileRepository _userProfileRepository;
+    private MenuRepository _menuRepository;
+	private MenuItemRepository _menuItemRepository;
+    private AuthorsSocialRepository _authorsSocialRepository;
+    private PostCategoryRepository _postCategoryRepository;
+    private PostAuthorRepository _postAuthorRepository;
+    private PostContentRepository _postContentRepository;
 
-	public AuthorRepository AuthorRepository
+    public AuthorRepository AuthorRepository
 	{
 		get
 		{
@@ -95,6 +103,83 @@ public class UnitOfWork
 				_userRepository = new UserRepository(_db);
 			}
 			return _userRepository;
+		}
+	}
+	public MenuRepository MenuRepository
+    {
+        get
+        {
+			if (_menuRepository == null)
+			{
+                _menuRepository = new MenuRepository(_db);
+			}
+			return _menuRepository;
+		}
+	}
+	public MenuItemRepository MenuItemRepository
+    {
+        get
+        {
+			if (_menuItemRepository == null)
+			{
+                _menuItemRepository = new MenuItemRepository(_db);
+			}
+			return _menuItemRepository;
+		}
+	}
+	public AuthorsSocialRepository AuthorsSocialRepository
+    {
+        get
+        {
+			if (_authorsSocialRepository == null)
+			{
+                _authorsSocialRepository = new AuthorsSocialRepository(_db);
+			}
+			return _authorsSocialRepository;
+		}
+	}
+	public UserProfileRepository UserProfileRepository
+    {
+        get
+        {
+			if (_userProfileRepository == null)
+			{
+                _userProfileRepository = new UserProfileRepository(_db);
+			}
+			return _userProfileRepository;
+		}
+	}
+	public PostContentRepository PostContentRepository
+	{
+		get
+		{
+			if (_postContentRepository == null)
+			{
+				_postContentRepository = new PostContentRepository(_db);
+			}
+			return _postContentRepository;
+		}
+	}
+	public PostAuthorRepository PostAuthorRepository
+	{
+        get
+        {
+			if (_postAuthorRepository == null)
+			{
+				_postAuthorRepository = new PostAuthorRepository(_db);
+			}
+			return _postAuthorRepository;
+		}
+	}	
+	public PostCategoryRepository PostCategoryRepository
+    {
+        get
+        {
+			if (_postCategoryRepository == null)
+			{
+				_postCategoryRepository = new PostCategoryRepository(_db);
+			}
+			return _postCategoryRepository;
 		}
 	}
 }

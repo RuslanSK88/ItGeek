@@ -1,6 +1,8 @@
-﻿namespace ItGeek.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class PostCategory
+namespace ItGeek.DAL.Entities;
+
+public class PostCategory : BaseEntity
 {
 	public int PostId { get; set; }
 	public int CategoryId { get; set; }

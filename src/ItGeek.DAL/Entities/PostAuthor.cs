@@ -1,6 +1,8 @@
-﻿namespace ItGeek.DAL.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
-public class PostAuthor
+namespace ItGeek.DAL.Entities;
+
+public class PostAuthor : BaseEntity
 {
 	public int PostId { get; set; }
 	public int AuthorId { get; set; }

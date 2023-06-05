@@ -1,0 +1,80 @@
+﻿@model IEnumerable<ItGeek.DAL.Entities.Menu>
+
+@{
+    ViewData["Title"] = "Список меню";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-10">
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-2 text-right">
+        <a asp-action="Create" class="btn btn-success">Новая</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+
+
+                <table class="table table-bordered dataTable" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>Пункты меню</th>
+                            <th style="width: 180px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning" 
+                                    asp-action="index"
+                                    asp-controller="MenuItems"
+                                    asp-route-menuid="@item.Id">Пункты меню</a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: '/js/admin/ru.json',
+                },
+            });
+        });
+    </script>
+}

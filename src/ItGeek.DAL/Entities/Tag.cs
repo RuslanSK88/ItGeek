@@ -7,5 +7,5 @@ public class Tag : BaseEntity
 	public string Slug { get; set; }
 	public string TagImage { get; set; }
 
-	public List<PostTag> PostTags { get; } = new();
+	public List<Post> Posts { get; } = new();
 }

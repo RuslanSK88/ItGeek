@@ -1,0 +1,110 @@
+﻿@model ItGeek.Web.Areas.Admin.ViewModels.PostViewModel
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="row">
+    <div class="col-6">
+        <div class="form-group">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label asp-for="Slug" class="control-label"></label>
+            <input asp-for="Slug" class="form-control" />
+            <span asp-validation-for="Slug" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="PostBody" class="control-label"></label>
+    <textarea id="myeditor" asp-for="PostBody" class="form-control" rows="10" cols="10"></textarea>
+    <span asp-validation-for="PostBody" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <label asp-for="TagIds" class="control-label"></label>
+    <input asp-for="TagIds" class="form-control" id="TagIds" />
+    <span asp-validation-for="TagIds" class="text-danger"></span>
+</div>
+
+<div class="row">
+    <div class="col-4">
+        <div class="form-group">
+            <label asp-for="PostImage" class="control-label"></label>
+            <input asp-for="ImageFile" type="file" accept="image/*" class="form-control" />
+            <span asp-validation-for="PostImage" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="form-group">
+            <label asp-for="CategoryId" class="control-label"></label>
+            <select multiple class="form-control" asp-for="CategoryId">
+
+                @foreach (var cat in ViewBag.Categories)
+                {
+                    var isActive = false;
+                    @foreach (int postCat in ViewBag.PostCategories)
+                    {
+                        if (cat.Id == postCat)
+                        {
+                            isActive = true;
+                        }
+                    }
+                    if (isActive)
+                    {
+                        <option class="active" selected value="@cat.Id">@cat.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@cat.Id">@cat.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AuthorId" class="control-label"></label>
+            <select multiple class="form-control" asp-for="AuthorId">
+                @foreach (var auth in ViewBag.Authors)
+                {
+                    var isActive = false;
+                    @foreach (int postCat in ViewBag.PostAuthors)
+                    {
+                        if (auth.Id == postCat)
+                        {
+                            isActive = true;
+                        }
+                    }
+                    if (isActive)
+                    {
+                        <option class="active" selected value="@auth.Id">@auth.Name</option>
+                    }
+                    else
+                    {
+                        <option value="@auth.Id">@auth.Name</option>
+                    }
+                }
+            </select>
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+            </label>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="CommentsClosed" /> @Html.DisplayNameFor(model => model.CommentsClosed)
+            </label>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>

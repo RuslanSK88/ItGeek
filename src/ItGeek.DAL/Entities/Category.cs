@@ -6,5 +6,5 @@ public class Category : BaseEntity
 	public string Description { get; set; }
 	public string Slug { get; set; }
 	public string CategoryImage { get; set; }
-	public List<PostCategory> PostCategories { get; } = new();
+	public List<Post> Posts { get; } = new();
 }
