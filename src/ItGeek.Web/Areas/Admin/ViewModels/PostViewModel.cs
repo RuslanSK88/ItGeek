@@ -38,6 +38,9 @@ namespace ItGeek.Web.Areas.Admin.ViewModels
 
 
 		[Display(Name = "Автор")]
-		public int[] AuthorId { get; set; }
+		public int[] AuthorId { get; set; }		
+        
+        [Display(Name = "Теги")]
+		public string[]? TagIds { get; set; }
 	}
 }

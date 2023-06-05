@@ -24,5 +24,51 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="~/css/admin/jquery.auto-complete.min.css" />
+    <script src="~/js/admin/jquery.auto-complete.min.js"></script>
+
+    <link rel="stylesheet" href="~/css/admin/bootstrap-tokenfield.min.css" />
+    <script src="~/js/admin/bootstrap-tokenfield.min.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+
+            $("#TagIds").tokenfield({
+                autocomplete: {
+                    source: function (request, response) {
+                        $.ajax({
+                            url: '@Url.Action("GetTagByName", "Posts", "Admin")',
+                            data: { "tag": request.term },
+                            dataType: "json",
+                            success: function (data) {
+                                response(data);
+                            },
+                            error: function (xhr, textStatus, error) {
+                                alert(xhr.statusText);
+                            },
+                        });
+                    },
+                    delay: 100
+                },
+            });
+
+            // Replace the textarea #example with SCEditor
+            var textarea = document.getElementById('myeditor');
+            sceditor.create(textarea, {
+                format: 'bbcode',
+            });
+        });
+
+    </script>
 }
