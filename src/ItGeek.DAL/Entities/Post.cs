@@ -1,8 +1,10 @@
-﻿namespace ItGeek.DAL.Entities;
+﻿using System.Reflection.Metadata;
+
+namespace ItGeek.DAL.Entities;
 
 public class Post : BaseEntity
 {
-    public string Slug { get; set; }
+	public string Slug { get; set; }
 	public DateTime CreatedAt { get; set; }
 	public DateTime EditedAt { get; set; }
 	public User? CreatedBy { get; set; }
@@ -13,4 +15,7 @@ public class Post : BaseEntity
 	public List<Category> Categories { get; } = new();
 	public List<Tag> Tags { get; } = new();
 	public List<Comment> Comments { get; } = new();
+
+	public PostContent? PostContents { get; set; }
+
 }

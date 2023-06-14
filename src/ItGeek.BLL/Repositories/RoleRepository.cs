@@ -17,6 +17,6 @@ public class RoleRepository : GenericRepositoryAsync<Role>, IRoleRepository
 
     public async Task<int> GetBasicAsync()
     {
-        return await _db.Roles.Where(x => x.RoleName == RoleName.Basic).Select(x => x.Id).FirstAsync();
+        return await _db.Roles.Where(x=>x.RoleName == RoleName.Basic).Select(x => x.Id).FirstAsync();
     }
 }

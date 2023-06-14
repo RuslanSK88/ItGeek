@@ -10,12 +10,12 @@ public class MenuItemRepository : GenericRepositoryAsync<MenuItem>, IMenuItemRep
     private readonly AppDbContext _db;
 
     public MenuItemRepository(AppDbContext db) : base(db)
-    {
+	{
         _db = db;
     }
 
     public async Task<List<MenuItem>> GetByMenuIdAsync(int id)
     {
-        return await _db.MenuItems.Where(x => x.MenuId == id).ToListAsync();
+        return await _db.MenuItems.Where(x=>x.MenuId == id).ToListAsync();
     }
 }
