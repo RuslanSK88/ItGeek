@@ -50,7 +50,7 @@
 </head>
 <body>
 
-    @Html.Partial("_Header")
+    @await Component.InvokeAsync("Menu")
     
     <main role="main">
         @RenderBody()

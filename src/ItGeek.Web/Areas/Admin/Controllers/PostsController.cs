@@ -10,6 +10,7 @@ using ItGeek.BLL;
 using ItGeek.Web.Areas.Admin.ViewModels;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.HttpResults;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ItGeek.Web.Areas.Admin.Controllers
 {
@@ -29,25 +30,25 @@ namespace ItGeek.Web.Areas.Admin.Controllers
         {
             List<Post> allPosts = (List<Post>)await _uow.PostRepository.ListAllAsync();
             List<PostContent> allPostsContent = (List<PostContent>)await _uow.PostContentRepository.ListAllAsync();
-
-
+            
+            
             List<PostViewModel> post = new List<PostViewModel>();
             foreach (var onePost in allPosts)
             {
-                PostContent onePostsContent = allPostsContent.First(x => x.PostId == onePost.Id);
+                PostContent onePostsContent = allPostsContent.First(x=>x.PostId == onePost.Id);
                 post.Add(new PostViewModel()
-                {
-                    Id = onePost.Id,
-                    Slug = onePost.Slug,
-                    IsDeleted = onePost.IsDeleted,
-                    Title = onePostsContent.Title,
-                    PostBody = onePostsContent.PostBody,
-                    PostImage = onePostsContent.PostImage,
-                    CommentsClosed = onePostsContent.CommentsClosed,
-                }
+                    {
+                        Id = onePost.Id,
+                        Slug = onePost.Slug,
+                        IsDeleted = onePost.IsDeleted,
+                        Title = onePostsContent.Title,
+                        PostBody = onePostsContent.PostBody,
+                        PostImage = onePostsContent.PostImage,
+                        CommentsClosed = onePostsContent.CommentsClosed,
+                    }
                 );
             }
-
+            
             return View(post);
         }
 
@@ -121,28 +122,44 @@ namespace ItGeek.Web.Areas.Admin.Controllers
                     CommentsClosed = postViewModel.CommentsClosed
                 };
 
-                await _uow.PostRepository.InsertAsync(post);
-                await _uow.PostContentRepository.InsertAsync(postContent);
+				await _uow.PostRepository.InsertAsync(post);
+				await _uow.PostContentRepository.InsertAsync(postContent);
+
+                string[] tagsNames = postViewModel.TagIds.Split(new char[] { ',' });
+
+                foreach (string tagName in tagsNames)
+                {
+                    int tagId = await _uow.PostTagRepository.GetTagIdByName(tagName.Trim());
+                    if (tagId != 0)
+                    {
+                        PostTag postTag = new PostTag()
+                        {
+                            PostId = post.Id,
+                            TagId = tagId
+                        };
+                        await _uow.PostTagRepository.InsertAsync(postTag);
+                    }
+                }
 
                 foreach (int catId in postViewModel.CategoryId)
                 {
                     PostCategory postCategory = new PostCategory()
-                    {
+				    {    
                         PostId = post.Id,
-                        CategoryId = catId
-                    };
+					    CategoryId = catId
+				    };
                     await _uow.PostCategoryRepository.InsertAsync(postCategory);
-                }
-                foreach (int authId in postViewModel.AuthorId)
+				}
+				foreach (int authId in postViewModel.AuthorId)
                 {
-                    PostAuthor postAuthor = new PostAuthor()
-                    {
-                        PostId = post.Id,
-                        AuthorId = authId
-                    };
-                    await _uow.PostAuthorRepository.InsertAsync(postAuthor);
-                }
-                return RedirectToAction(nameof(Index));
+					PostAuthor postAuthor = new PostAuthor()
+					{
+						PostId = post.Id,
+						AuthorId = authId
+					};
+					await _uow.PostAuthorRepository.InsertAsync(postAuthor);
+				}
+				return RedirectToAction(nameof(Index));
             }
             ViewBag.Authors = await _uow.AuthorRepository.ListAllAsync();
             ViewBag.Categories = await _uow.CategoryRepository.ListAllAsync();
@@ -161,7 +178,8 @@ namespace ItGeek.Web.Areas.Admin.Controllers
                 return NotFound();
             }
             PostContent postContent = await _uow.PostContentRepository.GetByPostIDAsync(id);
-
+            
+            string tagNames = await _uow.PostTagRepository.GetByPostIDAsync(id);
 
             PostViewModel postViewModel = new PostViewModel()
             {
@@ -172,11 +190,15 @@ namespace ItGeek.Web.Areas.Admin.Controllers
                 PostBody = postContent.PostBody,
                 PostImage = postContent.PostImage,
                 CommentsClosed = postContent.CommentsClosed,
+                TagIds = tagNames
             };
-            ViewBag.Authors = await _uow.AuthorRepository.ListAllAsync();
-            ViewBag.Categories = await _uow.CategoryRepository.ListAllAsync();
-            ViewBag.PostCategories = await _uow.PostCategoryRepository.ListByPostIdAsync(id);
-            ViewBag.PostAuthors = await _uow.PostAuthorRepository.ListByPostIdAsync(id);
+
+
+
+			ViewBag.Authors = await _uow.AuthorRepository.ListAllAsync();
+			ViewBag.Categories = await _uow.CategoryRepository.ListAllAsync();
+			ViewBag.PostCategories = await _uow.PostCategoryRepository.ListByPostIdAsync(id);
+			ViewBag.PostAuthors = await _uow.PostAuthorRepository.ListByPostIdAsync(id);
             ViewBag.CategoryCount = ((IEnumerable<int>)ViewBag.PostCategories).ToList().Count;
             ViewBag.AuthorCount = ((IEnumerable<int>)ViewBag.PostAuthors).ToList().Count;
 
@@ -214,6 +236,40 @@ namespace ItGeek.Web.Areas.Admin.Controllers
                 }
                 await _uow.PostContentRepository.UpdateAsync(postContent);
 
+                //qwe
+                string[] tagsNames = postViewModel.TagIds.Split(new char[] { ',' });
+                // [qwe, qweret, qwe]
+
+                await _uow.PostTagRepository.DeleteByPostIdAsync(post.Id);
+                foreach (string tagName in tagsNames)
+                {
+                    Tag tag = await _uow.TagRepository.GetOneTagByNameAsync(tagName);
+                    if(tag != null)
+                    {
+                        PostTag postTag = new PostTag()
+                        {
+                            PostId = post.Id,
+                            TagId = tag.Id
+                        };
+                        await _uow.PostTagRepository.InsertAsync(postTag);
+                    }
+                }
+
+                await _uow.PostAuthorRepository.DeleteByPostIdAsync(post.Id);
+                foreach (int authId in postViewModel.AuthorId)
+                {
+                    Author haveAuthor = await _uow.AuthorRepository.GetByIDAsync(authId);
+                    if (haveAuthor != null)
+                    {
+                        PostAuthor postAuthor = new PostAuthor()
+                        {
+                            PostId = post.Id,
+                            AuthorId = authId
+                        };
+                        await _uow.PostAuthorRepository.InsertAsync(postAuthor);
+                    }
+                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Authors = await _uow.AuthorRepository.ListAllAsync();
@@ -235,7 +291,7 @@ namespace ItGeek.Web.Areas.Admin.Controllers
                 string fileExtension = Path.GetExtension(postViewModel.ImageFile.FileName);
                 uniqueFileName = fileName + DateTime.Now.ToString("yymmddssfff") + fileExtension;
                 string path = Path.Combine(wwwRootPath + "/uploads/", uniqueFileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                using(var fileStream = new FileStream(path, FileMode.Create))
                 {
                     await postViewModel.ImageFile.CopyToAsync(fileStream);
                 }

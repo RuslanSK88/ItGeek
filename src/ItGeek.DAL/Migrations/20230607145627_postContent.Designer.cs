@@ -4,6 +4,7 @@ using ItGeek.DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ItGeek.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230607145627_postContent")]
+    partial class postContent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -336,8 +339,7 @@ namespace ItGeek.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId")
-                        .IsUnique();
+                    b.HasIndex("PostId");
 
                     b.ToTable("PostContents");
                 });
@@ -584,8 +586,8 @@ namespace ItGeek.DAL.Migrations
             modelBuilder.Entity("ItGeek.DAL.Entities.PostContent", b =>
                 {
                     b.HasOne("ItGeek.DAL.Entities.Post", "Post")
-                        .WithOne("PostContents")
-                        .HasForeignKey("ItGeek.DAL.Entities.PostContent", "PostId")
+                        .WithMany()
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -631,11 +633,6 @@ namespace ItGeek.DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ItGeek.DAL.Entities.Post", b =>
-                {
-                    b.Navigation("PostContents");
                 });
 
             modelBuilder.Entity("ItGeek.DAL.Entities.Role", b =>

@@ -13,10 +13,12 @@ public class PostContentRepository : GenericRepositoryAsync<PostContent>, IPostC
 	{
         _db = db;
     }
-	public async Task<PostContent> GetByPostIDAsync(int postId)
+
+    public async Task<PostContent> GetByPostIDAsync(int postId)
 	{
-		return await _db.PostContents.Where(x=>x.PostId == postId).FirstAsync();
-	}
+        return await _db.PostContents.Where(x=>x.PostId == postId).FirstAsync();
+    }
+
 	public async Task<List<PostContent>> ListByCategoryIdAsync(int categoryId)
 	{
 		Category cat = await _db.Categories.FindAsync(categoryId);

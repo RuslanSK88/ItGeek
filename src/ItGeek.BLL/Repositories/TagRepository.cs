@@ -14,8 +14,12 @@ public class TagRepository : GenericRepositoryAsync<Tag>, ITagRepository
         _db = db;
     }
 
-	public async Task<List<Tag>> GetTagByNameAsync(string tagName)
+	public async Task<List<Tag>> GetTagByNameAsync( string tagName)
 	{
-		return await _db.Tags.Where(x => x.Name.Contains(tagName)).ToListAsync();
-	}
+		return await _db.Tags.Where(x=>x.Name.Contains(tagName)).ToListAsync();
+    }
+	public async Task<Tag?> GetOneTagByNameAsync(string tagName)
+	{
+		return await _db.Tags.Where(x=>x.Name == tagName).FirstOrDefaultAsync();
+    }
 }
