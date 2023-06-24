@@ -27,5 +27,24 @@ namespace ItGeek.Web.Controllers
             ViewBag.Category = await _uow.CategoryRepository.GetBySlugAsync(categorySlug);
 			return View(postOne);
         }
+        [HttpPost]
+        public async Task<IActionResult> AddComment(Comment comment, string categorySlugOld, string postSlugOld)
+        {
+            comment.CreatedAt = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                await _uow.CommentRepository.InsertAsync(comment);
+
+                Post postOne = await _uow.PostRepository.GetBySlugAsync(postSlugOld);
+                PostComment postComment = new PostComment()
+                {
+                    PostId = postOne.Id,
+                    CommentId = comment.Id,
+                };
+                await _uow.PostCommentRepository.InsertAsync(postComment);
+
+            }
+            return RedirectToAction("Post", new { categorySlug = categorySlugOld, postSlug = postSlugOld });
+        }
     }
 }
