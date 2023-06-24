@@ -1,0 +1,35 @@
+﻿@model List<ItGeek.DAL.Entities.Post>;
+
+
+<div class="latest-box">
+
+    <div class="lb-header">Последние статьи:</div>
+
+    <div class="lb-list">
+
+        @foreach (ItGeek.DAL.Entities.Post post in Model)
+        {
+            var x = post.Categories.FirstOrDefault();
+            if (x != null)
+            {
+                <div class="lb-item">
+                    <a asp-action="Post" asp-controller="Category" asp-route-categorySlug="@x.Slug" asp-route-postSlug="@post.Slug" class="lb-catname">
+                        @x.Name
+                    </a>
+                    <div class="lb-body">
+                        <a class="lb-item-header" href="#">@post.PostContents.Title</a>
+                        <div class="lb-footer">
+                            <div class="item-comments" title="Количество комментариев">
+                                <i class="fa fa-comment"></i><a class="item-comments-count" href="#disqus_thread">@post.PostContents.CommentsNum</a>
+                                <span class="date">@post.CreatedAt.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+
+    </div>
+
+</div>

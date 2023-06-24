@@ -1,20 +1,16 @@
 ﻿@model ItGeek.Web.Areas.Admin.ViewModels.PostViewModel
-
 @{
     ViewData["Title"] = "Создать";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 <div class="row">
     <div class="col-10">
-        <h1 class="h3 mb-4 text-gray-800">@ViewData["title"]</h1>
-    </div>    
-
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+    </div>
     <div class="col-2 text-right">
         <a asp-action="Index" class="btn btn-outline-danger">Отмена</a>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <form asp-action="Create" enctype="multipart/form-data">
@@ -24,44 +20,47 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
+
 
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
     <link rel="stylesheet" href="~/css/admin/jquery.auto-complete.min.css" />
-    <script src="~/js/admin/jquery.auto-complete.min.js"></script>
-
+    <script type="text/javascript" src="~/js/admin/jquery.auto-complete.min.js"></script>
     <link rel="stylesheet" href="~/css/admin/bootstrap-tokenfield.min.css" />
-    <script src="~/js/admin/bootstrap-tokenfield.min.js"></script>
+    <script type="text/javascript" src="~/js/admin/bootstrap-tokenfield.min.js"></script>
 
-    <script>
+    <script type="text/javascript">
 
         $(document).ready(function () {
 
             $("#TagIds").tokenfield({
-                autocomplete: {
-                    source: function (request, response) {
+                autocomplete : {
+                    source: function(request, response){
+
                         $.ajax({
                             url: '@Url.Action("GetTagByName", "Posts", "Admin")',
                             data: { "tag": request.term },
                             dataType: "json",
-                            success: function (data) {
+                            success: function(data){
+                                //data = Json.parse(data);
                                 response(data);
                             },
                             error: function (xhr, textStatus, error) {
                                 alert(xhr.statusText);
                             },
                         });
+
                     },
                     delay: 100
                 },
             });
+
 
             // Replace the textarea #example with SCEditor
             var textarea = document.getElementById('myeditor');
@@ -69,6 +68,6 @@
                 format: 'bbcode',
             });
         });
-
+        
     </script>
 }

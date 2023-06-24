@@ -18,8 +18,6 @@
     <div class="col-12">
         <div class="card shadow mb-4">
             <div class="card-body">
-
-
                 <table class="table table-bordered dataTable" id="myTable">
                     <thead>
                         <tr>
@@ -38,10 +36,10 @@
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    <a class="btn btn-warning" 
-                                    asp-action="index"
-                                    asp-controller="MenuItems"
-                                    asp-route-menuid="@item.Id">Пункты меню</a>
+                                    <a class="btn btn-warning"
+                                   asp-action="Index"
+                                   asp-controller="MenuItems"
+                                   asp-route-menuid="@item.Id">Пункты меню</a>
                                 </td>
                                 <td>
                                     <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">
@@ -58,9 +56,6 @@
                         }
                     </tbody>
                 </table>
-
-
-
             </div>
         </div>
     </div>

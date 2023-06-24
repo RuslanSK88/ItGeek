@@ -1,0 +1,46 @@
+﻿@model ItGeek.DAL.Entities.Author
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-group">
+    <label asp-for="Name" class="control-label"></label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Slug" class="control-label"></label>
+    <input asp-for="Slug" class="form-control" />
+    <span asp-validation-for="Slug" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Regalia" class="control-label"></label>
+    <input asp-for="Regalia" class="form-control" />
+    <span asp-validation-for="Regalia" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Description" class="control-label"></label>
+    <input asp-for="Description" class="form-control" />
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="AuthorImage" class="control-label"></label>
+    @if (!ViewBag.isCreate)
+    {
+        @if (Model.AuthorImage != null)
+        {
+            <img src="~/uploads/@Model.AuthorImage" style="width:150px;" />
+        }
+        <input type="hidden" asp-for="AuthorImage" class="form-control" />
+        <input type="hidden" asp-for="Id" />
+    }
+    <input asp-for="ImageFile" type="file" accept="image/*" class="form-control" />
+    <span asp-validation-for="AuthorImage" class="text-danger"></span>
+</div>
+<div class="form-group">
+    <label asp-for="Email" class="control-label"></label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div class="form-group">
+    <input type="submit" value="Сохранить" class="btn btn-primary" />
+</div>

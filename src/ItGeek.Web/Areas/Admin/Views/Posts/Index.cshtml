@@ -4,19 +4,22 @@
     ViewData["Title"] = "Список статей";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 <div class="row">
     <div class="col-10">
-        <h1 class="h3 mb-4 text-gray-800">@ViewData["title"]</h1>
-    </div>    
-    <div class="col text-right">
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-2 text-right">
         <a asp-action="Create" class="btn btn-success">Новая</a>
     </div>
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-12">
         <div class="card shadow mb-4">
             <div class="card-body">
+
+
                 <table class="table table-bordered dataTable" id="myTable">
                     <thead>
                         <tr>
@@ -36,10 +39,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model) {
+                        @foreach (var item in Model)
+                        {
                             <tr>
                                 <td>
-                                    <img src="/uploads/@item.PostImage" style="width: 100px">
+                                    <img src="~/uploads/@item.PostImage" style="width:100px;" />
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Title)
@@ -65,10 +69,14 @@
                         }
                     </tbody>
                 </table>
+
+
+
             </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
     <link href="~/lib/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
@@ -77,9 +85,10 @@
     <script>
         $(document).ready(function(){
             $('#myTable').DataTable({
-                language: {url: '/js/admin/ru.json',},
+                language: {
+                    url: '/js/admin/ru.json',
+                },
             });
-        })
+        });
     </script>
 }
-

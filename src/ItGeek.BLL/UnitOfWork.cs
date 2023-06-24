@@ -28,7 +28,19 @@ public class UnitOfWork
     private PostAuthorRepository _postAuthorRepository;
     private PostContentRepository _postContentRepository;
 	private PostTagRepository _postTagRepository;
+	private PostCommentRepository _postCommentRepository;
 
+    public PostCommentRepository PostCommentRepository
+    {
+        get
+        {
+            if (_postCommentRepository == null)
+            {
+                _postCommentRepository = new PostCommentRepository(_db);
+            }
+            return _postCommentRepository;
+        }
+    }
     public PostTagRepository PostTagRepository
     {
         get

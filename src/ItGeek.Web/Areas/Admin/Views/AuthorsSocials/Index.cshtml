@@ -1,42 +1,71 @@
 ﻿@model IEnumerable<ItGeek.DAL.Entities.AuthorsSocial>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Список Соцсетей Авторов";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<div class="row">
+    <div class="col-10">
+        <h1 class="h3 mb-4 text-gray-800">@ViewData["Title"]</h1>
+    </div>
+    <div class="col-2 text-right">
+        <a asp-action="Create" class="btn btn-success">Новая</a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Author)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SocialLink)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Author.AuthorImage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SocialLink)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow mb-4">
+            <div class="card-body">
+                <table class="table table-bordered dataTable" id="myTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Author)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SocialLink)
+                            </th>
+                            <th style="width: 180px"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Author.AuthorImage)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SocialLink)
+                                </td>
+                                <td>
+                                    <a class="btn btn-success" asp-action="Update" asp-route-id="@item.Id">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable({
+                language: {
+                    url: '/js/admin/ru.json',
+                },
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
