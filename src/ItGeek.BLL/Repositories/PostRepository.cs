@@ -46,3 +46,5 @@ public class PostRepository : GenericRepositoryAsync<Post>, IPostRepository
         return await _db.Posts.Include(q => q.Categories).ToListAsync();
     }
 }
+
+
